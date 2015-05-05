@@ -63,8 +63,7 @@ public class CreateGroup {
 //已打
 
 
-
-		
+		list.add(new Person("150105195503101234","1955-03","1980-10",1,1,1,"电动机","独而不孤",1,1));
 		
 		
 //		,"2014-04-30"
@@ -134,6 +133,7 @@ public class CreateGroup {
 		while(it.hasNext() && isHaveWorng == false) {
 			Person person = it.next();
 			
+			//TODO 修改备注为审核人员
 			if(remark != ""){
 				person.setRemark(remark);
 			}

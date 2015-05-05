@@ -23,6 +23,7 @@ public class Db_Util {
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2012?user=root&password=sande";
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2013?user=root&password=sande";
 	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2014?user=root&password=sande";
+//	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor?user=root&password=sande";
 	private static String t_person = "t_person";
 
 	private static Connection conn = null;
@@ -33,6 +34,7 @@ public class Db_Util {
 	SimpleDateFormat dfYM = new SimpleDateFormat("yyyy-MM");
 	SimpleDateFormat dfYMD = new SimpleDateFormat("yyyy-MM-dd");
 	SimpleDateFormat dfYMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	SimpleDateFormat dfYMDHMS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	
 	private static Db_Util db = new Db_Util();
@@ -286,6 +288,7 @@ public class Db_Util {
 
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
 
 		String sql = "select number from index_num";
 		int num = 0;
@@ -305,7 +308,7 @@ public class Db_Util {
 		
 //TODO  修改编号位数
 //		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
-	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+num,7,"0")));
+	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+(day+1),2,"0") + lpad(""+num,7,"0")));
 		
 		//修改编号
 		num+=1;
@@ -518,6 +521,8 @@ public class Db_Util {
 		
 		try {
 			
+			//TODO 是否可以减少查询条件
+			//TODO 修改退休时间为受理时间
 			String sel = "select * from t_person_temp where "
 					+ "acceptNo = '" + person.getAcceptNo() + "' and "
 					+ "idNo = '" + person.getIdNo() + "' and "
@@ -570,7 +575,7 @@ public class Db_Util {
 			ps.setInt(7, person.getSex());
 			ps.setString(8, dfYMD.format(person.getAccepttime().getTime()));
 			ps.setString(9, person.getTelephone());
-			ps.setString(10, dfYMDHM.format(Calendar.getInstance().getTime()));
+			ps.setString(10, dfYMDHMS.format(Calendar.getInstance().getTime()));
 			ps.setString(11, "1");
 			ps.setString(12, "0");
 			
@@ -618,6 +623,7 @@ public class Db_Util {
 //				person.setAccepttime(cal);
 				person.setPhonenumber(rs.getString("phonenumber"));
 				
+				//TODO 设置属性改为受理时间
 				shen1.setTime(df1.parse(rs.getString("accepttime")));
 				person.setApproveTime(shen1);
 			}

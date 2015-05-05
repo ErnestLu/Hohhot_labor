@@ -9,7 +9,7 @@ create database db_labor;
 use db_labor;
 
 create table t_person (
-    serialNo varchar(13) not null primary key comment '流水号',/*0*/
+    serialNo varchar(15) not null primary key comment '流水号',/*0*/
     number varchar(10) not null comment '编号',/*1*/
     name varchar(20) not null comment '姓名',/*2*/
     sex integer not null comment '性别 1-男 2-女',/*3*/
@@ -35,7 +35,7 @@ create table t_person (
 );
 
 
-
+/* 添加字段判断是否是特殊工种 */
 create table t_person_temp (
 	serialNo varchar(13) NOT NULL PRIMARY KEY,/*流水号*/
   	acceptNo varchar(16) ,/*受理编号*/

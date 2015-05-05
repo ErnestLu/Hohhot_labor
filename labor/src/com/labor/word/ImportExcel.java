@@ -94,6 +94,8 @@ public class ImportExcel {
 
 			String sex_str = getCellFormatValue(row.getCell(4)).trim();
 
+			
+			//Todo 修改默认科室为三科
 			if ("业务一科".equals(office_str)) {
 				office = 1;
 			} else if ("业务二科".equals(office_str)) {
@@ -106,6 +108,7 @@ public class ImportExcel {
 				office = 0;
 			}
 
+			//TODO 根据身份证号来判断男女
 			if ("男".equals(sex_str)) {
 				sex = 1;
 			} else if ("女".equals(sex_str)) {
