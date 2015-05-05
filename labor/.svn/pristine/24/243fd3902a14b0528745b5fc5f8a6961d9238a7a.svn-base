@@ -1,0 +1,50 @@
+package com.labor.query;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import com.labor.word.Person;
+import com.labor.word.Util;
+
+public class Year {
+	
+	public static void main(String[] args) throws ParseException {
+		
+		Calendar bron = Calendar.getInstance();
+		Calendar join = Calendar.getInstance();
+		Calendar shen = Calendar.getInstance();
+		
+		Calendar cutbejin =  Calendar.getInstance();
+		Calendar cutend = Calendar.getInstance();
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
+		Person person = new Person();
+		
+		bron.setTime(df.parse("1984-01"));//出生年月
+		join.setTime(df.parse("2007-08"));//参加工作时间
+		
+		
+		shen.setTime(df1.parse("2044-01-30"));//受理时间
+		
+		person.setBorn(bron);
+		person.setJoin(join);
+		person.setApproveTime(shen);
+		
+		
+		System.out.println("缴费年限为:" + Util.getYear(person) + "年" + Util.getMonth(person) + "月");
+			
+		
+
+		
+		
+	}
+	
+	
+	
+	
+	
+}

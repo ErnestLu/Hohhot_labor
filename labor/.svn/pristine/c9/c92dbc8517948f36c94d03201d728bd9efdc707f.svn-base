@@ -1,0 +1,764 @@
+package com.labor.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import com.labor.word.Person;
+import com.labor.word.Person_Temp;
+
+public class Db_Util {
+
+	
+//	private static String dbURL = "jdbc:derby://localhost:1527/db_labor;user=lufengming;password=yang1111";
+//	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2012?user=root&password=sande";
+//	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2013?user=root&password=sande";
+	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2014?user=root&password=sande";
+	private static String t_person = "t_person";
+
+	private static Connection conn = null;
+	private static Statement stmt = null;
+	PreparedStatement ps = null;
+	
+	
+	SimpleDateFormat dfYM = new SimpleDateFormat("yyyy-MM");
+	SimpleDateFormat dfYMD = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat dfYMDHM = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	
+	
+	private static Db_Util db = new Db_Util();
+	
+
+	/**
+	 * 私有构造函数
+	 */
+	private Db_Util() {
+		createConnection();
+	}
+	
+	
+	/**
+	 * 获得类实例
+	 * @return
+	 */
+	public static Db_Util getInstance() {
+		if (db == null)
+			db = new Db_Util();
+		return db;
+	}
+
+	
+	/**
+	 * 创建链接
+	 */
+	private static void createConnection() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			// Get a connection
+			conn = DriverManager.getConnection(dbURL);
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+		} catch (Exception except) {
+			except.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 数据库提交
+	 */
+	public void commit() {
+		try {
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("数据库提交错误");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * 关闭数据库
+	 */
+	public void shutdown() {
+		try {
+			if (stmt != null) {
+				stmt.close();
+			}
+			if (conn != null) {
+//				DriverManager.getConnection(dbURL + ";shutdown=true");
+				
+				conn.close();
+			}
+		} catch (SQLException sqlExcept) {
+
+		}
+	}
+
+	/**
+	 * 添加一个人
+	 * @param person
+	 */
+	public void addOnePerson(Person person) {
+
+		
+
+		try {
+			String sel = "select * from " + t_person + " where acceptNo = '" + person.getAcceptNo() + "' and ifuse = '1'";
+
+			ResultSet rs = stmt.executeQuery(sel);
+
+			
+			Person tempPerson = new Person();
+			
+//			String num = "";
+//			String temp = "";
+//			String id = "";
+			
+			while (rs.next()) {
+				
+				person.setSerialNo(rs.getString("serialNo"));
+				person.setNumber(rs.getString("number"));
+				tempPerson.setOffice(rs.getInt("office"));
+				tempPerson.setType(rs.getInt("type"));
+//				num += rs.getString("serialNo");
+//				id = rs.getString("number");
+			}
+			rs.close();
+			
+			String serialNo = person.getSerialNo();
+//			String number = person.getNumber();
+			
+			String tempSql = "";
+
+			if(serialNo == null || serialNo == "") {
+
+				
+				person.setSerialNo(this.generateSerialNO());
+                this.generateNumber(person);
+				
+				insertStatement(person);
+				
+			} else {
+				
+				
+				
+				tempSql = "update  " + t_person + " set " +
+					"ifuse='0' " +
+					"where serialNo='"+person.getSerialNo()+"'"
+					;
+				executeUpdate(tempSql);
+				
+				
+//				if ((person.getOffice() != tempPerson.getOffice()) || (person.getType() != tempPerson.getType())) {
+//					this.generateNumber(person);
+//				}
+				
+				if (person.getOffice() != tempPerson.getOffice()) {
+					this.generateNumber(person);
+				} else if ((person.getOffice() == tempPerson.getOffice()) && (person.getType() != tempPerson.getType())) {
+					this.changeNumber(person);
+				}
+				
+				
+				
+				person.setSerialNo(this.generateSerialNO());
+				insertStatement(person);
+				
+
+//				person.setNumber(number);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+
+	}
+	
+	private int insertStatement(Person person) {
+		
+		int if_Succeed = 0;
+		
+		String tempSql = "insert into " + t_person + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try {
+			ps = conn.prepareStatement(tempSql);
+			ps.setString(1, person.getSerialNo());
+			ps.setString(2, person.getAcceptNo());
+			ps.setString(3, person.getIdNo());
+			ps.setString(4, person.getNumber());
+			ps.setString(5, person.getName());
+			ps.setString(6, person.getCompany());
+			ps.setInt(7, person.getOffice());
+			ps.setInt(8, person.getSex());
+			ps.setString(9, dfYM.format(person.getBorn().getTime()));
+			ps.setString(10, dfYM.format(person.getJoin().getTime()));
+			ps.setInt(11, person.getIdentity());
+			ps.setInt(12, person.getType());
+			ps.setString(13, dfYMD.format(person.getApproveTime().getTime()));
+			ps.setString(14, person.getNation() + "");
+			ps.setString(15, person.getBingNum() + "");
+			ps.setString(16, dfYMDHM.format(Calendar.getInstance().getTime()));
+			ps.setString(17, "");
+			ps.setString(18, person.getPhonenumber());
+			ps.setString(19, person.getRemark());
+			ps.setString(20, "1");
+			ps.setString(21, "0");
+			
+			if_Succeed = ps.executeUpdate();
+//			conn.commit();
+			ps.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		return if_Succeed;
+	}
+	
+	
+	
+	
+	/**
+	 * 执行更新
+	 * @param sql
+	 * @return
+	 */
+	public int executeUpdate(String sql) {
+		int state = 0;
+		try {
+			state = stmt.executeUpdate(sql);
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return state;
+	}
+	
+	/**
+	 * 执行查询
+	 * @param sql
+	 */
+	public ResultSet executeQuery(String sql) {
+		ResultSet set = null;
+		try {
+			set = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return set;
+	}
+	
+	
+	/**
+	 * 获得流水号（数据库主键）
+	 * @return
+	 */
+	private String generateSerialNO() {
+
+		Calendar cal = Calendar.getInstance();
+
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+
+		String sql = "select number from index_num";
+		int num = 0;
+
+		try {
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				num = rs.getInt("number");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+//TODO  修改编号位数
+//		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
+	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+num,7,"0")));
+		
+		//修改编号
+		num+=1;
+		String sql1 = "update index_num set number = " + num;
+		
+		executeUpdate(sql1);
+
+		return number;
+	}
+	
+	
+	/**
+	 * 获得流水号（数据库主键）
+	 * @return
+	 */
+	private String generateTempSerialNO() {
+
+		Calendar cal = Calendar.getInstance();
+
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+
+		String sql = "select shoulinum from index_num";
+		int num = 0;
+
+		try {
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				num = rs.getInt("shoulinum");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+//TODO  修改编号位数
+//		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
+	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+num,6,"0")));
+		
+		//修改编号
+		num+=1;
+		String sql1 = "update index_num set shoulinum = " + num;
+		
+		executeUpdate(sql1);
+
+		return number;
+	}
+	
+	
+	
+	
+	/**
+	 * 获得编号
+	 * @return
+	 */
+	private String generateNumber(Person person) {
+
+		String sql = "select * from index_num";
+//		String normal = "";
+//		String disease = "";
+//		String special = "";
+
+		
+		int temp = 0;
+
+		String str = "";
+		String biao = "";
+		switch (person.getOffice()) {
+		case 1:
+			str = "one";
+			biao = "1";
+			break;
+		case 2:
+			str = "two";
+			biao = "2";
+			break;
+		case 3:
+			str = "three";
+			biao = "3";
+			break;
+		case 4:
+			str = "zhi";
+			biao = "4";
+			break;
+		default:
+			break;
+		}
+		
+		
+		String leixing = "";
+		switch (person.getType()) {
+		case 1:
+			leixing = "Z";
+			break;
+		case 2:
+			leixing = "B";
+			break;
+		case 3:
+			leixing = "T";
+			break;
+		case 4:// 退职
+			leixing = "R";
+			break;
+		case 5:// 破产
+			leixing = "P";
+			break;
+		default:
+			break;
+		}
+
+		try {
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				temp = rs.getInt(str);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		temp += 1;
+
+		String sql1 = "update index_num set " + str + " = " + temp;
+
+		executeUpdate(sql1);
+		
+//TODO  修改 系统年份常量
+		String sNum = "14" + leixing + biao + lpad("" + temp, 5, "0");
+		
+		person.setNumber(sNum);
+
+		return sNum;
+	}
+	
+	
+	
+	/**
+	 * 获得编号
+	 * @return
+	 */
+	private String changeNumber(Person person) {
+		
+		String temp = person.getNumber();
+		
+		String leixing = "";
+		switch (person.getType()) {
+		case 1:
+			leixing = "Z";
+			break;
+		case 2:
+			leixing = "B";
+			break;
+		case 3:
+			leixing = "T";
+			break;
+		case 4:// 退职
+			leixing = "R";
+			break;
+		case 5:// 破产
+			leixing = "P";
+			break;
+		default:
+			break;
+		}
+		temp = temp.substring(0, 2) + leixing + temp.substring(3, 9);
+		
+		person.setNumber(temp);
+		
+		return temp;
+		
+	}
+	
+
+	
+	/**
+	 * 左填充
+	 * @param str		目标字符串
+	 * @param len		长度	
+	 * @param padstr	填充字符
+	 * @return			填充完的字符
+	 */
+	private String lpad(String str, int len, String padstr) {
+		if (str.getBytes().length > len)
+			return null;
+		if (str.getBytes().length == len)
+			return str;
+		while (str.getBytes().length < len) {
+			str = padstr + str;
+		}
+		return str;
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * 添加一个人
+	 * @param person
+	 */
+	public void addPersonTemp(Person_Temp person) {
+		
+		String tempSql = "";
+		
+		try {
+			
+			String sel = "select * from t_person_temp where "
+					+ "acceptNo = '" + person.getAcceptNo() + "' and "
+					+ "idNo = '" + person.getIdNo() + "' and "
+					+ "name = '" + person.getName() + "' and "
+					+ "company = '" + person.getCompany() + "' and "
+					+ "office = '" + person.getOffice() + "' and "
+					+ "sex = '" + person.getSex() + "' and "
+					+ "accepttime = '" + dfYMD.format(person.getAccepttime().getTime()) + "' and "
+					+ "phonenumber = '" + person.getTelephone() + "'";
+			
+			
+			ResultSet rs = stmt.executeQuery(sel);
+			
+
+			if (rs.next() == false) {
+				
+				tempSql = "update  t_person_temp set " +
+						"ifuse='0' " +
+						"where idNo='"+person.getIdNo()+"'";
+					executeUpdate(tempSql);
+				
+				person.setSerialNo(generateTempSerialNO());
+				insertTempStatement(person);
+				
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+	
+	
+	private int insertTempStatement(Person_Temp person) {
+		
+		int if_Succeed = 0;
+		
+		
+		String tempSql = "insert into t_person_temp values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try {
+			ps = conn.prepareStatement(tempSql);
+			ps.setString(1, person.getSerialNo());
+			ps.setString(2, person.getAcceptNo());
+			ps.setString(3, person.getIdNo());
+			ps.setString(4, person.getName());
+			ps.setString(5, person.getCompany());
+			ps.setInt(6, person.getOffice());
+			ps.setInt(7, person.getSex());
+			ps.setString(8, dfYMD.format(person.getAccepttime().getTime()));
+			ps.setString(9, person.getTelephone());
+			ps.setString(10, dfYMDHM.format(Calendar.getInstance().getTime()));
+			ps.setString(11, "1");
+			
+
+			
+			if_Succeed = ps.executeUpdate();
+//			conn.commit();
+			ps.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		return if_Succeed;
+	}
+	
+	
+	
+	public Person getPersonTempById(String id, Person person) {
+
+		
+		String sel = "select * from t_person_temp where "
+				+ "idNo = '" + id + "' order by serialNo";
+
+		
+		
+		ResultSet rs;
+		try {
+			rs = stmt.executeQuery(sel);
+			
+			if (rs.last() == true) {
+				
+//				Calendar cal = Calendar.getInstance();
+//				cal.setTime(dfYMD.parse(rs.getString("")));
+
+				person.setAcceptNo(rs.getString("acceptNo"));
+				person.setIdNo(rs.getString("idNo"));
+				person.setName(rs.getString("name"));
+				person.setCompany(rs.getString("company"));
+				person.setOffice(rs.getInt("office"));
+				person.setSex(rs.getInt("sex"));
+//				person.setAccepttime(cal);
+				person.setPhonenumber(rs.getString("phonenumber"));
+			}
+		} catch (SQLException e) {
+			System.err.println("在受理表中查询已受理信息时出错。");
+			e.printStackTrace();
+		}
+		
+
+		
+		return person;
+	}
+	
+	
+	
+	
+	
+	
+//	/**
+//	 * 插入一条记录
+//	 * @deprecated
+//	 * @param person
+//	 */
+//	public void insertStatement_old(Person person) {
+//
+//
+//
+//		try {
+//			String sel = "select * from " + t_person + " where acceptNo = '" + person.getAcceptNo() + "'";
+//
+//			ResultSet rs = stmt.executeQuery(sel);
+//
+//			String num = "";
+//			String temp = "";
+//			String id = "";
+//			
+//			while (rs.next()) {
+//				num += rs.getString("serialNo");
+//				id = rs.getString("number");
+//			}
+//			rs.close();
+//
+//			if(num == null || num == "") {
+////				 String del = "delete from " + t_person +" where acceptNum = '" + person.getId() + "'";
+////				 stmt.executeUpdate(del);
+//				
+//				temp = "insert into " + t_person + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//				ps = conn.prepareStatement(temp);
+//				ps.setString(1, generateSerialNO());
+//				ps.setString(2, generateNumber(person));
+//				ps.setString(3, person.getAcceptNo());
+//				ps.setString(4, person.getName());
+//				ps.setString(5, person.getCompany());
+//				ps.setInt(6, person.getOffice());
+//				ps.setInt(7, person.getSex());
+//				ps.setString(8, dfYM.format(person.getBorn().getTime()));
+//				ps.setString(9, dfYM.format(person.getJoin().getTime()));
+//				ps.setInt(10, person.getIdentity());
+//				ps.setInt(11, person.getType());
+//				ps.setString(12, dfYMD.format(person.getApproveTime().getTime()));
+//				ps.setString(13, person.getNation() + "");
+//				ps.setString(14, person.getBingNum() + "");
+//				ps.setString(15, dfYMD.format(Calendar.getInstance().getTime()));
+//				ps.setString(16, "");
+//				ps.setString(17, person.getRemark());
+//				
+//				ps.executeUpdate();
+//				conn.commit();
+//				ps.close();
+//			} else {
+//				temp = "update  " + t_person + " set " +
+//					"name = '" + person.getName() + "', " +
+//					"company ='"+person.getCompany()+"', " +
+//					"office="+person.getOffice()+", " +
+//					"sex = "+person.getSex()+", " +
+//					"borntime='"+dfYM.format(person.getBorn().getTime())+"', " +
+//					"jointime='"+dfYM.format(person.getJoin().getTime())+"',"+
+//					"identity="+person.getIdentity()+","+
+//					"type="+person.getType()+","+
+//					"approvetime='"+dfYMD.format(person.getApproveTime().getTime())+"',"+
+//					"etirenum='"+person.getBingNum()+"', " +
+//					"modtime='"+dfYMD.format(Calendar.getInstance().getTime())+"' " +
+//					"where acceptNo='"+person.getAcceptNo()+"'"
+//					;
+//				
+//				executeUpdate(temp);
+//				
+//
+//				person.setNumber(id);
+//
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} 
+//
+//	}
+	
+	
+	
+	
+	/**
+	 * 获得流水号
+	 * @deprecated
+	 * @return
+	 */
+//	private String getSerialNumber_old(Person person) {
+//
+//		String sql = "select * from sequence";
+////		String normal = "";
+////		String disease = "";
+////		String special = "";
+//
+//		int temp = 0;
+//
+//		String str = "";
+//		String biao = "";
+//		switch (person.getType()) {
+//		case 1:
+//			str = "normal";
+//			biao = "Z";
+//			break;
+//		case 2:
+//			str = "disease";
+//			biao = "B";
+//			break;
+//		case 3:
+//			str = "special";
+//			biao = "T";
+//			break;
+//		case 4:// 退职
+//			str = "retirement";
+//			biao = "R";
+//			break;
+//		case 5:// 破产
+//			str = "collapse";
+//			biao = "P";
+//			break;
+//		default:
+//			break;
+//		}
+//
+//		try {
+//
+//			ResultSet rs = stmt.executeQuery(sql);
+//
+//			while (rs.next()) {
+//				temp = rs.getInt(str);
+//			}
+//			rs.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//		temp += 1;
+//
+//		String sql1 = "update sequence set " + str + " = " + temp;
+//
+//		executeUpdate(sql1);
+//		
+//		
+//		String sNum = biao + lpad("" + temp, 5, "0");
+//		
+//		person.setNumber(sNum);
+//
+//		return sNum;
+//	}
+}
