@@ -1,5 +1,7 @@
 package com.labor.word;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +13,9 @@ public class CreateList {
 	public static void main(String[] args) {
 		
 		Db_Util db = Db_Util.getInstance();
+
+		SimpleDateFormat dfYM = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat dfYMD = new SimpleDateFormat("yyyy-MM-dd");
 		
 		
 		List<Person_Temp> list = db.getPersonTempList();
@@ -40,7 +45,7 @@ public class CreateList {
 //				str += "\",\"19\",1,1,1,\"";
 				
 				
-				str += person.getIdNo() + "\",\"19\",\"19\",1,1,1,\"";
+				str += person.getIdNo() + "\",\"19\",\"19\",1," + person.getIfSpecial() +",1,\"";
 
 				
 				str += person.getName() + "\",\"";
@@ -57,9 +62,18 @@ public class CreateList {
 				} else {
 					str += String.valueOf(person.getOffice()) + ",";
 				}
+				
+				str += String.valueOf(person.getSex());
+				
+				Calendar cal = Calendar.getInstance();  
+//				calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DATE)); 
+				
+				if ("3".equals(person.getIfSpecial())) {
+					str += ",\"" + dfYM.format(cal.getTime()) + "-30\"";
+				}
 
-				str += String.valueOf(person.getSex()) + "));";
-
+				str += "));";
+				
 				System.out.println(str + "\n");
 
 			}

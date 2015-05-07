@@ -530,8 +530,7 @@ public class Db_Util {
 					+ "office = '" + person.getOffice() + "' and "
 					+ "sex = '" + person.getSex() + "' and "
 					+ "accepttime = '" + dfYMD.format(person.getAccepttime().getTime()) + "' and "
-					+ "phonenumber = '" + person.getTelephone() + "' and "
-					+ "ifuse = '1'";
+					+ "phonenumber = '" + person.getTelephone() + "'";
 			
 			
 			ResultSet rs = stmt.executeQuery(sel);
@@ -626,7 +625,6 @@ public class Db_Util {
 //				person.setAccepttime(cal);
 				person.setPhonenumber(rs.getString("phonenumber"));
 				
-				//TODO 设置属性改为受理时间
 				shen1.setTime(df1.parse(rs.getString("accepttime")));
 				person.setApproveTime(shen1);
 			}
@@ -674,6 +672,7 @@ public class Db_Util {
 				person.setSex(rs.getInt("sex"));
 				person.setIfprint(rs.getString("ifprint"));
 				person.setIfuse(rs.getString("ifuse"));
+				person.setIfSpecial(rs.getString("ifSpecial"));
 				
 				
 				list.add(person);
