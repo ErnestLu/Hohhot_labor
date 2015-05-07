@@ -1,6 +1,6 @@
-set character_set_results=gbk;
+set character_set_results=utf8;
 
-set character_set_client=gbk;
+set character_set_client=utf8;
 
 drop database db_labor;
 
@@ -9,46 +9,46 @@ create database db_labor;
 use db_labor;
 
 create table t_person (
-    serialNo varchar(15) not null primary key comment '流水号',/*0*/
-    number varchar(10) not null comment '编号',/*1*/
-    name varchar(20) not null comment '姓名',/*2*/
-    sex integer not null comment '性别 1-男 2-女',/*3*/
-    nation varchar(2) not null comment '民族',/*4*/
-    idNo varchar(18) comment '身份证号',/*5*/
-    identity integer not null comment '身份 1-工人 2-干部',/*6*/
-    borntime varchar(10) not null comment '档案出生年月',/*7*/
-    jointime varchar(10) not null comment '参加工作时间',/*8*/
-    type integer not null comment '类型',/*9*/
-    approvetime varchar(10) not null comment '退休时间',/*10*/
-    office integer not null comment '科室',/*11*/
-    acceptNo varchar(20) comment '受理编号',/*12*/
-    acceptTime varchar(10) not null comment '受理时间',/*13*/
-	phonenumber varchar(15) comment '电话',/*14*/
-    remark varchar(50) comment '备注',/*15*/
-    approveperson varchar(2) not null comment '审批人员',/*16*/
-    etirenum varchar(10) comment '病退号',/*17*/
-    company varchar(60) not null comment '公司',/*18*/
-    addtime varchar(16) comment '添加时间',/*19*/
-    modtime varchar(16) comment '修改时间',/*20*/
+    serialNo varchar(15) not null primary key comment '流水号',/*1*/
+    number varchar(10) not null comment '编号',/*2*/
+    name varchar(20) not null comment '姓名',/*3*/
+    sex integer not null comment '性别 1-男 2-女',/*4*/
+    nation varchar(2) not null comment '民族',/*5*/
+    idNo varchar(18) comment '身份证号',/*6*/
+    identity integer not null comment '身份 1-工人 2-干部',/*7*/
+    borntime varchar(10) not null comment '档案出生年月',/*8*/
+    jointime varchar(10) not null comment '参加工作时间',/*9*/
+    type integer not null comment '类型',/*10*/
+    approvetime varchar(10) not null comment '退休时间',/*11*/
+    office integer not null comment '科室',/*12*/
+    acceptNo varchar(20) comment '受理编号',/*13*/
+    acceptTime varchar(10) not null comment '受理时间',/*14*/
+	phonenumber varchar(15) comment '电话',/*15*/
+    remark varchar(50) comment '备注',/*16*/
+    approveperson varchar(2) not null comment '审批人员',/*17*/
+    etirenum varchar(10) comment '病退号',/*18*/
+    company varchar(60) not null comment '公司',/*19*/
+    addtime varchar(19) comment '添加时间',/*20*/
     ifuse varchar(1) comment '是否在用 1-在用 0-不用',/*21*/
     ifcalculate varchar(1) comment '是否计算 1-计算 0-没算'/*22*/
 );
 
 
-/* 添加字段判断是否是特殊工种 */
+
 create table t_person_temp (
-	serialNo varchar(13) NOT NULL PRIMARY KEY,/*流水号*/
-  	acceptNo varchar(16) ,/*受理编号*/
-  	idNo varchar(18),/*身份证号*/
-  	name varchar(20) ,/*姓名*/
-  	company varchar(60) ,/*公司*/
-  	office integer ,/*科室*/
-  	sex integer ,/*性别*/
-  	accepttime varchar(16),/*受理时间*/
-  	phonenumber varchar(15),/*电话*/
-  	addtime varchar(16),/*添加时间*/
-  	ifuse varchar(1),/*是否在用 1-在用 0-不用*/
-  	ifprint varchar(1)/*是否打印 1-已打印 0-未打印*/
+	serialNo varchar(15) NOT NULL PRIMARY KEY comment '流水号',
+  	acceptNo varchar(16)  comment '受理编号',
+  	idNo varchar(18) comment '身份证号',
+  	name varchar(20) comment '姓名',
+  	company varchar(60) comment '公司',
+  	office integer comment '科室',
+  	sex integer comment '性别',
+  	accepttime varchar(16) comment '受理时间',
+  	phonenumber varchar(15) comment '电话',
+  	addtime varchar(19) comment '添加时间',
+  	ifuse varchar(1) comment '是否在用 1-在用 0-不用',
+  	ifprint varchar(1) comment '是否打印 1-已打印 0-未打印',
+  	ifSpecial varchar(1) comment '是否特殊工种 1-正常 3-特殊工种'
 );
 
 

@@ -25,8 +25,12 @@ public class ImportExcel {
 	HSSFSheet sheet;
 	HSSFRow row;
 	HSSFCell cell;
+	
+	static String ifSpecial = "1";
 
 	public static void main(String[] args) throws IOException {
+		
+		
 
 		try {
 			// 对读取Excel表格标题测试
@@ -34,9 +38,11 @@ public class ImportExcel {
 //			
 //			InputStream is = new FileInputStream("E:/单位应用/个人手提档案（退职）申请受理通知书1.xls");
 //			
-//			InputStream is = new FileInputStream("E:/单位应用/改编版本2014（特殊工种）申请受理通知书1.xls");
+//			InputStream is = new FileInputStream("E:/单位应用/2014年档案（买断）申请受理通知书1.xls");
 //			
-			InputStream is = new FileInputStream("E:/单位应用/2014年档案（买断）申请受理通知书1.xls");
+//			
+			InputStream is = new FileInputStream("E:/单位应用/改编版本2014（特殊工种）申请受理通知书1.xls");
+			ifSpecial = "3";
 			
 			
 			
@@ -92,10 +98,10 @@ public class ImportExcel {
 
 			String office_str = getCellFormatValue(row.getCell(8)).trim();
 
-			String sex_str = getCellFormatValue(row.getCell(4)).trim();
+//			String sex_str = getCellFormatValue(row.getCell(4)).trim();
 
 			
-			//Todo 修改默认科室为三科
+
 			if ("业务一科".equals(office_str)) {
 				office = 1;
 			} else if ("业务二科".equals(office_str)) {
@@ -105,15 +111,16 @@ public class ImportExcel {
 			} else if ("直属科".equals(office_str)) {
 				office = 4;
 			} else {
-				office = 0;
+				office = 3;
 			}
 
-			//TODO 根据身份证号来判断男女
-			if ("男".equals(sex_str)) {
-				sex = 1;
-			} else if ("女".equals(sex_str)) {
+
+			sex = Integer.parseInt(person_temp.getIdNo().substring(16, 17))%2;
+			
+			if (sex == 0) {
 				sex = 2;
 			}
+
 
 			person_temp.setOffice(office);
 
@@ -128,6 +135,10 @@ public class ImportExcel {
 		
 			
 			person_temp.setAccepttime(date1);
+			
+			
+			person_temp.setIfSpecial(ifSpecial);
+			
 
 			if (Util.checkTempPerson(person_temp)) {
 

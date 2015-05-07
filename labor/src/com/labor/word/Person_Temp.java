@@ -59,6 +59,8 @@ public class Person_Temp {
 	private String ifprint;
 	
 	private String ifuse;
+	
+	private String ifSpecial;
 
 
 	
@@ -174,7 +176,16 @@ public class Person_Temp {
 	
 	
 	
-	
+	public String getIfSpecial() {
+		return ifSpecial;
+	}
+
+
+	public void setIfSpecial(String ifSpecial) {
+		this.ifSpecial = ifSpecial;
+	}
+
+
 	@Override
 	public String toString() {
 		

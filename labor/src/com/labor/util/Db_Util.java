@@ -22,8 +22,8 @@ public class Db_Util {
 //	private static String dbURL = "jdbc:derby://localhost:1527/db_labor;user=lufengming;password=yang1111";
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2012?user=root&password=sande";
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2013?user=root&password=sande";
-	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2014?user=root&password=sande";
-//	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor?user=root&password=sande";
+//	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2014?user=root&password=sande";
+	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor?user=root&password=sande";
 	private static String t_person = "t_person";
 
 	private static Connection conn = null;
@@ -308,7 +308,7 @@ public class Db_Util {
 		
 //TODO  修改编号位数
 //		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
-	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+(day+1),2,"0") + lpad(""+num,7,"0")));
+	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+(day),2,"0") + lpad(""+num,7,"0")));
 		
 		//修改编号
 		num+=1;
@@ -330,6 +330,7 @@ public class Db_Util {
 
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
 
 		String sql = "select shoulinum from index_num";
 		int num = 0;
@@ -349,7 +350,7 @@ public class Db_Util {
 		
 //TODO  修改编号位数
 //		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
-	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+num,6,"0")));
+	    String number = ((("" + year) + lpad(""+(month+1),2,"0")+ lpad(""+(day),2,"0") + lpad(""+num,6,"0")));
 		
 		//修改编号
 		num+=1;
@@ -521,8 +522,6 @@ public class Db_Util {
 		
 		try {
 			
-			//TODO 是否可以减少查询条件
-			//TODO 修改退休时间为受理时间
 			String sel = "select * from t_person_temp where "
 					+ "acceptNo = '" + person.getAcceptNo() + "' and "
 					+ "idNo = '" + person.getIdNo() + "' and "
@@ -531,7 +530,8 @@ public class Db_Util {
 					+ "office = '" + person.getOffice() + "' and "
 					+ "sex = '" + person.getSex() + "' and "
 					+ "accepttime = '" + dfYMD.format(person.getAccepttime().getTime()) + "' and "
-					+ "phonenumber = '" + person.getTelephone() + "'";
+					+ "phonenumber = '" + person.getTelephone() + "' and "
+					+ "ifuse = '1'";
 			
 			
 			ResultSet rs = stmt.executeQuery(sel);
@@ -563,7 +563,7 @@ public class Db_Util {
 		int if_Succeed = 0;
 		
 		
-		String tempSql = "insert into t_person_temp values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String tempSql = "insert into t_person_temp values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(tempSql);
 			ps.setString(1, person.getSerialNo());
@@ -578,6 +578,7 @@ public class Db_Util {
 			ps.setString(10, dfYMDHMS.format(Calendar.getInstance().getTime()));
 			ps.setString(11, "1");
 			ps.setString(12, "0");
+			ps.setString(13, person.getIfSpecial());
 			
 
 			
@@ -631,7 +632,6 @@ public class Db_Util {
 			System.err.println("在受理表中查询已受理信息时出错。");
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
