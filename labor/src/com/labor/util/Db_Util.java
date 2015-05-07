@@ -539,6 +539,8 @@ public class Db_Util {
 
 			if (rs.next() == false) {
 				
+				db.ifTempHas(person);
+
 				tempSql = "update t_person_temp set " +
 						"ifuse='0' " +
 						"where idNo='" + person.getIdNo() + "'";
@@ -646,6 +648,7 @@ public class Db_Util {
 		List<Person_Temp> list = new ArrayList<Person_Temp>();
 		
 		
+		
 		String sel = "select * from t_person_temp t where 1=1 and t.ifuse = 1 and t.ifprint = 0 order by acceptNo";
 		
 //		sel += "acceptNo > " + "";
@@ -713,6 +716,32 @@ public class Db_Util {
 		}
 		
 		return is;
+	}
+	
+	
+	public void ifTempHas(Person_Temp person) {
+
+		String sel = "select * from t_person_temp where ifuse = '1' and idNo = '" + person.getIdNo() + "'";
+		
+		
+		ResultSet rs;
+		try {
+			rs = stmt.executeQuery(sel);
+			
+			if (rs.next() == true) {
+				
+				System.err.println(person.getName() + ": 身份证号已有，已经受理过。");
+				
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("查询受理表时出错。");
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 	
 	

@@ -321,10 +321,10 @@ public class Util {
 		
 		Db_Util db = Db_Util.getInstance();
 		
-//		if (db.ifJiTi(person) == false) {
-//			is = false;
-//			System.err.println(person.getName() + "(" +person.getIdNo() + ")"+ ":办过集体工。");
-//		}
+		if (db.ifJiTi(person) == false) {
+			is = false;
+			System.err.println(person.getName() + "(" +person.getIdNo() + ")"+ ":办过集体工。");
+		}
 		
 
 		if (person.getType() == 2 || person.getType() == 4) {
