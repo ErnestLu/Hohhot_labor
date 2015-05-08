@@ -40,8 +40,10 @@ public class Year {
 //		
 //		cutend.setTime(dfYM.parse("1981-07"));
 		
-		person.setCutbegin(cutbejin);
-		person.setCutend(cutend);
+		
+		person.setIfaddorcut("2");
+		person.setAddorcutbegin(cutbejin);
+		person.setAddorcutend(cutend);
 		
 		
 		
@@ -72,8 +74,9 @@ public class Year {
 		rpersn.setBorn(bron);
 		rpersn.setJoin(rjon);
 		
-		rpersn.setCutbegin(cutbejin);
-		rpersn.setCutend(cutend);
+		person.setIfaddorcut("2");
+		rpersn.setAddorcutbegin(cutbejin);
+		rpersn.setAddorcutend(cutend);
 		
 		rpersn.setApproveTime(shen);
 		

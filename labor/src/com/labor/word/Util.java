@@ -97,7 +97,7 @@ public class Util {
 	public static int getYear(Person person) {
 		int age = getMonthNum(person.getJoin(), person.getApproveTime());
 		
-		int cut = getMonthNum(person.getCutbegin(), person.getCutend());
+		int cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
 		
 		if(cut != 1) {
 			age -= cut;
@@ -121,7 +121,7 @@ public class Util {
 		
 		int age = getMonthNum(person.getJoin(), person.getApproveTime());
 		
-		int cut = getMonthNum(person.getCutbegin(), person.getCutend());
+		int cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
 		
 		if(cut != 1) {
 			age -= cut;
@@ -143,7 +143,7 @@ public class Util {
 	
 	public static boolean isCut(Person person) {
 		
-		int cut = getMonthNum(person.getCutbegin(), person.getCutend());
+		int cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
 		
 		if(cut == 1) {
 			return false;
@@ -319,13 +319,14 @@ public class Util {
 			is = false;
 		}
 		
+		//TODO 添加集体工表
 		Db_Util db = Db_Util.getInstance();
 		
-		if (db.ifJiTi(person) == false) {
-			is = false;
-			System.err.println(person.getName() + "(" +person.getIdNo() + ")"+ ":办过集体工。");
-		}
-		
+//		if (db.ifJiTi(person) == false) {
+//			is = false;
+//			System.err.println(person.getName() + "(" +person.getIdNo() + ")"+ ":办过集体工。");
+//		}
+//		
 
 		if (person.getType() == 2 || person.getType() == 4) {
 			

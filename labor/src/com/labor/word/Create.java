@@ -70,8 +70,8 @@ public class Create {
 	
 		
 		
-		person.setCutbegin(cutbejin);
-		person.setCutend(cutend);
+		person.setAddorcutbegin(cutbejin);
+		person.setAddorcutend(cutend);
 
 		
 		person.setBorn(bron);

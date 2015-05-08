@@ -143,22 +143,9 @@ public class Db_Util {
 
 			if(serialNo == null || serialNo == "") {
 
-				
-				person.setSerialNo(this.generateSerialNO());
-                this.generateNumber(person);
-				
-				insertStatement(person);
-				
-				tempSql = "update t_person_temp set " +
-						"ifprint='1' where " +
-						" idNo='" + person.getIdNo() + "' and "
-						+ "acceptNo = '" + person.getAcceptNo() + "' and " 
-						+ "ifuse = '1' ; ";
-				executeUpdate(tempSql);
+				this.generateNumber(person);
 				
 			} else {
-				
-				
 				
 				tempSql = "update  " + t_person + " set " +
 					"ifuse='0' " +
@@ -166,34 +153,23 @@ public class Db_Util {
 					;
 				executeUpdate(tempSql);
 				
-				
-//				if ((person.getOffice() != tempPerson.getOffice()) || (person.getType() != tempPerson.getType())) {
-//					this.generateNumber(person);
-//				}
-				
 				if (person.getOffice() != tempPerson.getOffice()) {
 					this.generateNumber(person);
 				} else if ((person.getOffice() == tempPerson.getOffice()) && (person.getType() != tempPerson.getType())) {
 					this.changeNumber(person);
 				}
 				
-				
-				person.setSerialNo(this.generateSerialNO());
-				insertStatement(person);
-				
-				
-				tempSql = "update t_person_temp set " +
-						"ifprint='1' where " +
-						" idNo='" + person.getIdNo() + "' and "
-						+ "acceptNo = '" + person.getAcceptNo() + "' and " 
-						+ "ifuse = '1' ; ";
-				executeUpdate(tempSql);
-				
-
-//				person.setNumber(number);
-
 			}
 			
+			person.setSerialNo(this.generateSerialNO());
+			insertStatement(person);
+			
+			tempSql = "update t_person_temp set " +
+					"ifprint='1' where " +
+					" idNo='" + person.getIdNo() + "' and "
+					+ "acceptNo = '" + person.getAcceptNo() + "' and " 
+					+ "ifuse = '1' ; ";
+			executeUpdate(tempSql);
 			
 
 		} catch (SQLException e) {
@@ -204,32 +180,39 @@ public class Db_Util {
 	
 	private int insertStatement(Person person) {
 		
+		//TODO 修改备注信息 处理增加核减工龄信息
+		
+		
 		int if_Succeed = 0;
 		
-		String tempSql = "insert into " + t_person + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String tempSql = "insert into " + t_person + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			ps = conn.prepareStatement(tempSql);
 			ps.setString(1, person.getSerialNo());
-			ps.setString(2, person.getAcceptNo());
-			ps.setString(3, person.getIdNo());
-			ps.setString(4, person.getNumber());
-			ps.setString(5, person.getName());
-			ps.setString(6, person.getCompany());
-			ps.setInt(7, person.getOffice());
-			ps.setInt(8, person.getSex());
-			ps.setString(9, dfYM.format(person.getBorn().getTime()));
-			ps.setString(10, dfYM.format(person.getJoin().getTime()));
-			ps.setInt(11, person.getIdentity());
-			ps.setInt(12, person.getType());
-			ps.setString(13, dfYMD.format(person.getApproveTime().getTime()));
-			ps.setString(14, person.getNation() + "");
-			ps.setString(15, person.getBingNum() + "");
-			ps.setString(16, dfYMDHM.format(Calendar.getInstance().getTime()));
-			ps.setString(17, "");
-			ps.setString(18, person.getPhonenumber());
-			ps.setString(19, person.getRemark());
-			ps.setString(20, "1");
-			ps.setString(21, "0");
+			ps.setString(2, person.getNumber());
+			ps.setString(3, person.getName());
+			ps.setInt(4, person.getSex());
+			ps.setString(5, person.getNation() + "");
+			ps.setString(6, person.getIdNo());
+			ps.setInt(7, person.getIdentity());
+			ps.setString(8, dfYM.format(person.getBorn().getTime()));
+			ps.setString(9, dfYM.format(person.getJoin().getTime()));
+			ps.setInt(10, person.getType());
+			ps.setString(11, dfYMD.format(person.getApproveTime().getTime()));
+			ps.setInt(12, person.getOffice());
+			ps.setString(13, person.getAcceptNo());
+			ps.setString(14, dfYMD.format(person.getAccepttime().getTime()));
+			ps.setString(15, person.getPhonenumber());
+			ps.setString(16, person.getRemark());
+			ps.setInt(17, person.getApproveperson());
+			ps.setString(18, person.getBingNum() + "");
+			ps.setString(19, person.getCompany());
+			ps.setString(20, person.getIfaddorcut());
+			ps.setString(21, dfYMD.format(person.getAddorcutbegin().getTime()));
+			ps.setString(22, dfYMD.format(person.getAddorcutend().getTime()));
+			ps.setString(23, dfYMDHMS.format(Calendar.getInstance().getTime()));
+			ps.setString(24, "1");
+			ps.setString(25, "0");
 			
 			if_Succeed = ps.executeUpdate();
 //			conn.commit();
@@ -306,7 +289,6 @@ public class Db_Util {
 		}
 
 		
-//TODO  修改编号位数
 //		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
 	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+(day),2,"0") + lpad(""+num,7,"0")));
 		
@@ -348,9 +330,8 @@ public class Db_Util {
 		}
 
 		
-//TODO  修改编号位数
 //		String number = ((("" + year) + (month+1)) + lpad(""+num,10,"0")) ;
-	    String number = ((("" + year) + lpad(""+(month+1),2,"0")+ lpad(""+(day),2,"0") + lpad(""+num,6,"0")));
+	    String number = ((("" + year) + lpad(""+(month+1),2,"0") + lpad(""+(day),2,"0") + lpad(""+num,6,"0")));
 		
 		//修改编号
 		num+=1;
@@ -442,7 +423,7 @@ public class Db_Util {
 		executeUpdate(sql1);
 		
 //TODO  修改 系统年份常量
-		String sNum = "14" + leixing + biao + lpad("" + temp, 5, "0");
+		String sNum = "15" + leixing + biao + lpad("" + temp, 5, "0");
 		
 		person.setNumber(sNum);
 
@@ -615,18 +596,17 @@ public class Db_Util {
 				
 //				Calendar cal = Calendar.getInstance();
 //				cal.setTime(dfYMD.parse(rs.getString("")));
-
+//TODO 受理表中信息导入正式表
 				person.setAcceptNo(rs.getString("acceptNo"));
 				person.setIdNo(rs.getString("idNo"));
 				person.setName(rs.getString("name"));
 				person.setCompany(rs.getString("company"));
 				person.setOffice(rs.getInt("office"));
 				person.setSex(rs.getInt("sex"));
-//				person.setAccepttime(cal);
 				person.setPhonenumber(rs.getString("phonenumber"));
 				
 				shen1.setTime(df1.parse(rs.getString("accepttime")));
-				person.setApproveTime(shen1);
+				person.setAccepttime(shen1);
 			}
 		} catch (SQLException e) {
 			System.err.println("在受理表中查询已受理信息时出错。");

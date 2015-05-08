@@ -25,12 +25,15 @@ create table t_person (
     acceptTime varchar(10) not null comment '受理时间',/*14*/
 	phonenumber varchar(15) comment '电话',/*15*/
     remark varchar(50) comment '备注',/*16*/
-    approveperson varchar(2) not null comment '审批人员',/*17*/
+    approveperson integer not null comment '审批人员',/*17*/
     etirenum varchar(10) comment '病退号',/*18*/
-    company varchar(60) not null comment '公司',/*19*/
-    addtime varchar(19) comment '添加时间',/*20*/
-    ifuse varchar(1) comment '是否在用 1-在用 0-不用',/*21*/
-    ifcalculate varchar(1) comment '是否计算 1-计算 0-没算'/*22*/
+    company varchar(60) comment '公司',/*19*/
+    ifaddorcut varchar(1) comment '工龄是否有增减 0-无 1-增 2-减',/*20*/
+    addorcutbegin varchar(10) comment '增减开始时间',/*21*/
+    addorcutend varchar(10) comment '增减结束时间',/*22*/
+    addtime varchar(19) comment '添加时间',/*23*/
+    ifuse varchar(1) comment '是否在用 1-在用 0-不用',/*24*/
+    ifcalculate varchar(1) comment '是否计算 1-计算 0-没算'/*25*/
 );
 
 

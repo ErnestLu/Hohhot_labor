@@ -372,7 +372,7 @@ public void addTime1(Person person) throws DocumentException {
 	
 	public boolean isCut(Person person) {
 		
-		int cut = Util.getMonthNum(person.getCutbegin(), person.getCutend());
+		int cut = Util.getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
 		
 		if(cut == 1) {
 			return false;
@@ -387,13 +387,13 @@ public void addTime1(Person person) throws DocumentException {
 
 		List<Phrase> list = new ArrayList<Phrase>();
 		list.add(new Phrase("    核减", fFang));
-		list.add(new Phrase("" + person.getCutbegin().get(Calendar.YEAR), fTimes));
+		list.add(new Phrase("" + person.getAddorcutbegin().get(Calendar.YEAR), fTimes));
 		list.add(new Phrase("年", fFang));
-		list.add(new Phrase("" + (person.getCutbegin().get(Calendar.MONTH) + 1), fTimes));
+		list.add(new Phrase("" + (person.getAddorcutbegin().get(Calendar.MONTH) + 1), fTimes));
 		list.add(new Phrase("月—", fFang));
-		list.add(new Phrase("" + person.getCutend().get(Calendar.YEAR), fTimes));
+		list.add(new Phrase("" + person.getAddorcutend().get(Calendar.YEAR), fTimes));
 		list.add(new Phrase("年", fFang));
-		list.add(new Phrase("" + (person.getCutend().get(Calendar.MONTH) + 1), fTimes));
+		list.add(new Phrase("" + (person.getAddorcutend().get(Calendar.MONTH) + 1), fTimes));
 		list.add(new Phrase("月工龄", fFang));
 
 		Context01.addAll(list);

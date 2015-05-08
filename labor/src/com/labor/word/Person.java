@@ -12,106 +12,121 @@ public class Person {
 	private SimpleDateFormat dfMD = new SimpleDateFormat("-MM-dd");
 	private SimpleDateFormat dfYMD = new SimpleDateFormat("yyyy-MM-dd");
 
-	public static int myId;
+//	public static int myId;
 
 	/**
 	 * 1.流水号
 	 */
 	private String serialNo;
 	
-	
 	/**
-	 * 2.受理编号
-	 */
-	private String acceptNo;
-	
-	/**
-	 * 3.身份证号
-	 */
-	private String idNo;
-
-	/**
-	 * 4.编号
+	 * 2.编号
 	 */
 	private String number;
-
+	
 	/**
-	 * 5.姓名
+	 * 3.姓名
 	 */
 	private String name;
-
+	
 	/**
-	 * 6.公司
-	 */
-	private String company;
-
-	/**
-	 * 7.科室
-	 */
-	private int office;
-
-	/**
-	 * 8.性别
+	 * 4.性别
 	 */
 	private int sex;
 
 	/**
-	 * 9.出生年月
+	 * 5.民族
+	 */
+	private int nation;
+	
+	/**
+	 * 6.身份证号
+	 */
+	private String idNo;
+	
+	/**
+	 * 7.身份
+	 */
+	private int identity;
+	
+	/**
+	 * 8.出生年月
 	 */
 	private Calendar born = Calendar.getInstance();
 
 	/**
-	 * 10.参加工作时间
+	 * 9.参加工作时间
 	 */
 	private Calendar join = Calendar.getInstance();
-
+	
 	/**
-	 * 11.身份
-	 */
-	private int identity;
-
-	/**
-	 * 12.类型
+	 * 10.类型
 	 */
 	private int type;
-
+	
 	/**
-	 * 13.审批时间
+	 * 11.审批时间
 	 */
 	private Calendar approveTime;
-
-	/**
-	 * 14.民族
-	 */
-	private int nation;
-
-	/**
-	 * 15.病退编号
-	 */
-	private String bingNum;
-	
 	
 	/**
-	 * 18.电话
+	 * 12.科室
+	 */
+	private int office;
+		
+	/**
+	 * 13.受理编号
+	 */
+	private String acceptNo;
+	
+	/**
+	 * 14.受理时间
+	 */
+	private Calendar accepttime;
+	
+	/**
+	 * 15.电话
 	 */
 	private String phonenumber;
 	
-	
-
 	/**
-	 * 19.备注
+	 * 16.备注
 	 */
 	private String remark = "";
+	
+	/**
+	 * 17.审核人员
+	 */
+	private int approveperson;
+	
+	/**
+	 * 18.病退编号
+	 */
+	private String bingNum;
 
+	/**
+	 * 19.公司
+	 */
+	private String company;
+
+
+	/**
+	 * 20.标记 是否增加核减工龄
+	 */
+	private String ifaddorcut;
+	
+	
 	/**
 	 * 核减开始时间
 	 */
-	private Calendar cutbegin = Calendar.getInstance();
+	private Calendar addorcutbegin = Calendar.getInstance();
 
 	/**
 	 * 核减结束时间
 	 */
-	private Calendar cutend = Calendar.getInstance();
+	private Calendar addorcutend = Calendar.getInstance();
+	
+	
 
 	/**
 	 * 额外信息1
@@ -338,96 +353,52 @@ public class Person {
 		this.extra2 = extra2;
 	}
 
-	public Calendar getCutbegin() {
-		return cutbegin;
-	}
-
-	public void setCutbegin(Calendar cutbegin) {
-		this.cutbegin = cutbegin;
-	}
-
-	public Calendar getCutend() {
-		return cutend;
-	}
-
-	public void setCutend(Calendar cutend) {
-		this.cutend = cutend;
-	}
+		
 	
+
+	public String getIfaddorcut() {
+		return ifaddorcut;
+	}
+
+	public void setIfaddorcut(String ifaddorcut) {
+		this.ifaddorcut = ifaddorcut;
+	}
+
+	public Calendar getAddorcutbegin() {
+		return addorcutbegin;
+	}
+
+	public void setAddorcutbegin(Calendar addorcutbegin) {
+		this.addorcutbegin = addorcutbegin;
+	}
+
+	public Calendar getAddorcutend() {
+		return addorcutend;
+	}
+
+	public void setAddorcutend(Calendar addorcutend) {
+		this.addorcutend = addorcutend;
+	}
+
+	public Calendar getAccepttime() {
+		return accepttime;
+	}
+
+	public void setAccepttime(Calendar accepttime) {
+		this.accepttime = accepttime;
+	}
+
+	public int getApproveperson() {
+		return approveperson;
+	}
+
+	public void setApproveperson(int approveperson) {
+		this.approveperson = approveperson;
+	}
+
 	public Person() {
 		
 	}
-	
-	
-//	/**
-//	 * 
-//	 * @param id
-//	 * @param name
-//	 * @param born
-//	 * @param join
-//	 * @param com
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, String name, String born, String join, Company com)
-//			throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(com.getKesh());
-//		setCompany(com.getComp());
-//
-//		setIdentity(com.getType());
-//		setType(com.getShenfen());
-//		setSex(com.getSex());
-//
-//		setExtra2(com.getExtra2());
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
-//
-//		bron1.setTime(df.parse(born));// 出生年月
-//		join1.setTime(df.parse(join));// 参加工作时间
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		// this.bingNum = bingNum;
-//
-//		setApproveTime(com.getShen());
-//
-//	}
-
-//	public Person(String id, String name, String born, String join,
-//			String shen, Company com) throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(com.getKesh());
-//		setCompany(com.getComp());
-//
-//		setIdentity(com.getType());
-//		setType(com.getShenfen());
-//		setSex(com.getSex());
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
-//		SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-//
-//		bron1.setTime(df.parse(born));// 出生年月
-//		join1.setTime(df.parse(join));// 参加工作时间
-//
-//		if (!("".equals(shen) || shen == null)) {
-//			shen1.setTime(df1.parse(shen));// 受理时间
-//		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		setApproveTime(shen1);
-//		// this.bingNum = bingNum;
-//
-//	}
 
 
 
@@ -454,7 +425,7 @@ public class Person {
 		
 		
 		Calendar shen2 = Calendar.getInstance();
-		shen2.setTime(this.getApproveTime().getTime());
+		shen2.setTime(this.getAccepttime().getTime());
 		
 		
 		setIdentity(identity);
@@ -591,7 +562,7 @@ public class Person {
 	 * @throws ParseException 
 	 */
 	public Person(String idNo, String born, String join, int identity,
-			int type, int nation, String cutbej, String cunen,String name, String comp, int kesh, int sex) throws ParseException {
+			int type, int nation,String ifAddOrCut, String addOrCutBeing, String addOrCutEnd,String name, String comp, int kesh, int sex) throws ParseException {
 
 		
 		
@@ -641,11 +612,13 @@ public class Person {
 		Calendar cutbejin = Calendar.getInstance();
 		Calendar cutend = Calendar.getInstance();
 		
-		cutbejin.setTime(dfYM.parse(cutbej));// 核减开始时间
-		cutend.setTime(dfYM.parse(cunen)); // 核减结束时间
+		cutbejin.setTime(dfYM.parse(addOrCutBeing));// 核减开始时间
+		cutend.setTime(dfYM.parse(addOrCutEnd)); // 核减结束时间
 		
-		setCutbegin(cutbejin);
-		setCutend(cutend);
+		setIfaddorcut(ifAddOrCut);
+		
+		setAddorcutbegin(cutbejin);
+		setAddorcutend(cutend);
 		
 				
 //		shen1.setTime(dfYMD.parse(Util.getRetireYear(this) + dfMD.format(bron1.getTime())));
@@ -671,7 +644,7 @@ public class Person {
 	 * @throws ParseException 
 	 */
 	public Person(String idNo, String born, String join, int identity,
-			int type, int nation, String cutbej, String cunen,String name, String comp, int kesh, int sex, String shen) throws ParseException {
+			int type, int nation, String ifAddOrCut, String addOrCutBeing, String addOrCutEnd,String name, String comp, int kesh, int sex, String shen) throws ParseException {
 
 		
 		
@@ -721,11 +694,13 @@ public class Person {
 		Calendar cutbejin = Calendar.getInstance();
 		Calendar cutend = Calendar.getInstance();
 		
-		cutbejin.setTime(dfYM.parse(cutbej));// 核减开始时间
-		cutend.setTime(dfYM.parse(cunen)); // 核减结束时间
+		cutbejin.setTime(dfYM.parse(addOrCutBeing));// 核减开始时间
+		cutend.setTime(dfYM.parse(addOrCutEnd)); // 核减结束时间
 		
-		setCutbegin(cutbejin);
-		setCutend(cutend);
+		setIfaddorcut(ifAddOrCut);
+		
+		setAddorcutbegin(cutbejin);
+		setAddorcutend(cutend);
 		
 				
 //		shen1.setTime(dfYMD.parse(Util.getRetireYear(this) + dfMD.format(bron1.getTime())));
@@ -800,9 +775,6 @@ public class Person {
 		}
 		
 		
-		
-		
-		
 		if (!("".equals(shen) || shen == null)) {
 			shen1.setTime(dfYMD.parse(shen));// 受理时间
 		}
@@ -828,8 +800,8 @@ public class Person {
 	 * @throws ParseException 
 	 */
 	public Person(String idNo, String born, String join, int identity,
-			int type, String BingNum, int nation, String cutbej,
-			String cunen, String name, String comp, int kesh, int sex, String shen) throws ParseException {
+			int type, String BingNum, int nation, String ifAddOrCut, String addOrCutBeing, String addOrCutEnd,
+			String name, String comp, int kesh, int sex, String shen) throws ParseException {
 
 		Db_Util db = Db_Util.getInstance();
 
@@ -877,508 +849,19 @@ public class Person {
 		Calendar cutbejin = Calendar.getInstance();
 		Calendar cutend = Calendar.getInstance();
 		
-		cutbejin.setTime(dfYM.parse(cutbej));// 核减开始时间
-		cutend.setTime(dfYM.parse(cunen)); // 核减结束时间
+		cutbejin.setTime(dfYM.parse(addOrCutBeing));// 核减开始时间
+		cutend.setTime(dfYM.parse(addOrCutEnd)); // 核减结束时间
 		
-		setCutbegin(cutbejin);
-		setCutend(cutend);
+		setIfaddorcut(ifAddOrCut);
 		
+		setAddorcutbegin(cutbejin);
+		setAddorcutend(cutend);
 		if (!("".equals(shen) || shen == null)) {
 			shen1.setTime(dfYMD.parse(shen));// 受理时间
 		}
 //		shen1.setTime(dfYMD.parse(Util.getRetireYear(this) + dfMD.format(bron1.getTime())));
 		setApproveTime(shen1);
 	}
-
-
-//	/**
-//	 * 正常
-//	 * 
-//	 * @param acceptNo
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param identity
-//	 *            身份
-//	 * @param type
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String acceptNo, int kesh, int sex, String born, String join,
-//			int identity, int type, int nation, String name, String comp,
-//			String shen) throws ParseException {
-//		setAcceptNo(acceptNo);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(identity);
-//		setType(type);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//
-//		if (!("".equals(shen) || shen == null)) {
-//			shen1.setTime(dfYMD.parse(shen));// 受理时间
-//		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		setApproveTime(shen1);
-//	}
-//
-//	
-//	/**
-//	 * 正常 没有 审批时间
-//	 * 
-//	 * @param acceptNo
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param identity
-//	 *            身份
-//	 * @param type
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String acceptNo, int kesh, int sex, String born, String join,
-//			int identity, int type, int nation, String name, String comp) throws ParseException {
-//		setAcceptNo(acceptNo);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(identity);
-//		setType(type);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//
-////		if (!("".equals(shen) || shen == null)) {
-////			shen1.setTime(df1.parse(shen));// 受理时间
-////		}
-//
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-////		System.out.println(Util.getRetireYear(this) + dfMD.format(bron1.getTime()));
-//
-//		shen1.setTime(dfYMD.parse(Util.getRetireYear(this) + dfMD.format(bron1.getTime())));
-//		setApproveTime(shen1);
-//	}
-	
-	
-
-//	/**
-//	 * 加核减
-//	 * 
-//	 * @param id
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param type
-//	 *            身份
-//	 * @param shenfen
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, int kesh, int sex, String born, String join,
-//			int type, int shenfen, int nation, String cutbej, String cunen,
-//			String name, String comp, String shen) throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(type);
-//		setType(shenfen);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//		Calendar cutbejin = Calendar.getInstance();
-//		Calendar cutend = Calendar.getInstance();
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//
-//		cutbejin.setTime(dfYM.parse(cutbej));// 核减开始时间
-//		cutend.setTime(dfYM.parse(cunen)); // 核减结束时间
-//
-//		if (!("".equals(shen) || shen == null)) {
-//			shen1.setTime(dfYMD.parse(shen));// 受理时间
-//		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		setApproveTime(shen1);
-//
-//		setCutbegin(cutbejin);
-//		setCutend(cutend);
-//	}
-	
-	
-	
-	
-//	/**
-//	 * 加核减  没有审批时间
-//	 * 
-//	 * @param id
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param type
-//	 *            身份
-//	 * @param shenfen
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, int kesh, int sex, String born, String join,
-//			int type, int shenfen, int nation, String cutbej, String cunen,
-//			String name, String comp) throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(type);
-//		setType(shenfen);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//		Calendar cutbejin = Calendar.getInstance();
-//		Calendar cutend = Calendar.getInstance();
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//
-//		cutbejin.setTime(dfYM.parse(cutbej));// 核减开始时间
-//		cutend.setTime(dfYM.parse(cunen)); // 核减结束时间
-//
-////		if (!("".equals(shen) || shen == null)) {
-////			shen1.setTime(df1.parse(shen));// 受理时间
-////		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		
-//		shen1.setTime(dfYMD.parse(Util.getRetireYear(this) + dfMD.format(bron1.getTime())));
-//		setApproveTime(shen1);
-//
-//		setCutbegin(cutbejin);
-//		setCutend(cutend);
-//	}
-	
-	
-
-//	/**
-//	 * 加病退
-//	 * 
-//	 * @param id
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param type
-//	 *            身份
-//	 * @param shenfen
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, int kesh, int sex, String born, String join,
-//			int type, int shenfen, String BingNum, int nation, String name,
-//			String comp, String shen) throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(type);
-//		setType(shenfen);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		setBingNum(BingNum);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//
-//		if (!("".equals(shen) || shen == null)) {
-//			shen1.setTime(dfYMD.parse(shen));// 受理时间
-//		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		setApproveTime(shen1);
-//	}
-	
-	
-	
-	
-//	/**
-//	 * 加病退 加核减
-//	 * 
-//	 * @param id
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param type
-//	 *            身份
-//	 * @param shenfen
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, int kesh, int sex, String born, String join,
-//			int type, int shenfen, String BingNum, int nation, String cutbej,
-//			String cunen, String name, String comp, String shen)
-//			throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(type);
-//		setType(shenfen);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		setBingNum(BingNum);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//		
-//		
-//		Calendar cutbejin = Calendar.getInstance();
-//		Calendar cutend = Calendar.getInstance();
-//
-//		cutbejin.setTime(dfYM.parse(cutbej));// 核减开始时间
-//		cutend.setTime(dfYM.parse(cunen)); // 核减结束时间
-//
-//
-//		if (!("".equals(shen) || shen == null)) {
-//			shen1.setTime(dfYMD.parse(shen));// 受理时间
-//		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		setApproveTime(shen1);
-//		
-//		
-//		setCutbegin(cutbejin);
-//		setCutend(cutend);
-//	}
-	
-	
-	
-	
-//	/**
-//	 * 加病退  没有审批时间
-//	 * 
-//	 * @param id
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param type
-//	 *            身份
-//	 * @param shenfen
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, int kesh, int sex, String born, String join,
-//			int type, int shenfen, String BingNum, int nation, String name,
-//			String comp) throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(type);
-//		setType(shenfen);
-//		setSex(sex);
-//		setNation(nation);
-//
-//		setBingNum(BingNum);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-////		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
-////		SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-//
-//		bron1.setTime(dfYM.parse(born));// 出生年月
-//		join1.setTime(dfYM.parse(join));// 参加工作时间
-//
-////		if (!("".equals(shen) || shen == null)) {
-////			shen1.setTime(df1.parse(shen));// 受理时间
-////		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		
-//		shen1.setTime(dfYMD.parse(Util.getRetireYear(this) + dfMD.format(bron1.getTime())));
-//		setApproveTime(shen1);
-//	}
-	
-	
-
-//	/**
-//	 * @param id
-//	 *            受理编号
-//	 * @param kesh
-//	 *            科室
-//	 * @param sex
-//	 *            性别
-//	 * @param born
-//	 *            出生年月
-//	 * @param join
-//	 *            参加工作时间
-//	 * @param type
-//	 *            身份
-//	 * @param shenfen
-//	 *            类型
-//	 * @param name
-//	 *            姓名
-//	 * @param comp
-//	 *            公司
-//	 * @param shen
-//	 *            审批时间
-//	 * @throws ParseException
-//	 */
-//	public Person(String id, int kesh, int sex, String born, String join,
-//			int type, int shenfen, String name, String comp, String shen)
-//			throws ParseException {
-//		setAcceptNo(id);
-//		setName(name);
-//		setOffice(kesh);
-//		setCompany(comp);
-//		setIdentity(type);
-//		setType(shenfen);
-//		setSex(sex);
-//
-//		Calendar bron1 = Calendar.getInstance();
-//		Calendar join1 = Calendar.getInstance();
-//		Calendar shen1 = Calendar.getInstance();
-//
-//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM");
-//		SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-//
-//		bron1.setTime(df.parse(born));// 出生年月
-//		join1.setTime(df.parse(join));// 参加工作时间
-//
-//		if (!("".equals(shen) || shen == null)) {
-//			shen1.setTime(df1.parse(shen));// 受理时间
-//		}
-//
-//		setBorn(bron1);
-//		setJoin(join1);
-//		setApproveTime(shen1);
-//	}
 
 	
 	
@@ -1406,7 +889,7 @@ public class Person {
 		
 		System.out.println("性别：" + getSex());
 		
-//		System.out.println("审批时间：" + dfYMD.format(get().getTime()));
+		System.out.println("审批时间：" + dfYMD.format(getApproveTime().getTime()));
 		
 		System.out.println("电话：" + getPhonenumber());
 		

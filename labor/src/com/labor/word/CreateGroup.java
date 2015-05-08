@@ -24,7 +24,7 @@ public class CreateGroup {
 		
 		List<Person> list = new ArrayList<Person>();
 		
-		String remark = "";
+		int approveperson = 0;
 		
 		
 		Company comp = new Company();
@@ -63,18 +63,18 @@ public class CreateGroup {
 //已打
 
 
-		list.add(new Person("150105195503101234","1955-03","1980-10",1,1,1,"电动机","独而不孤",1,1));
+		
 		
 		
 //		,"2014-04-30"
 //		,"2014-11-30"
-
+//      ,2,"19","19"
 		
 		
-		remark = "3";
-//		remark = "2";
-//		remark = "1";
-//		remark = "4";
+		approveperson = 3;
+//		approveperson = 2;
+//		approveperson = 1;
+//		approveperson = 4;
 //		,"2013-12-30"
 //		,"2013-01-30"
 //		,"2014-09-30"
@@ -101,9 +101,9 @@ public class CreateGroup {
 //		,"2014-04-30"
 //		,"2014-08-30"
 //		,"2014-01-30"
-//		remark = "1";
-//		remark = "2";
-//		remark = "4";
+//		approveperson = 1;
+//		approveperson = 2;
+//		approveperson = 4;
 //		
 //		list.add(new Person("                ",1,1,"195","197",1,3,1,"大大大","集团","2013-12-30"));
 //		list.add(new Person("                ",1,2,"196","198",1,3,1,"大大大","集团","2013-12-30"));
@@ -133,9 +133,8 @@ public class CreateGroup {
 		while(it.hasNext() && isHaveWorng == false) {
 			Person person = it.next();
 			
-			//TODO 修改备注为审核人员
-			if(remark != ""){
-				person.setRemark(remark);
+			if(approveperson != 0){
+				person.setApproveperson(approveperson);
 			}
 			
 			if (Util.check(person)) {
@@ -153,7 +152,6 @@ public class CreateGroup {
 		wUtil.wordClose();
 		db.shutdown();
 		
-//TODO 写Word
 		
 	
 //		Calendar bron = Calendar.getInstance();
