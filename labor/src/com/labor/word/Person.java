@@ -119,12 +119,14 @@ public class Person {
 	/**
 	 * 核减开始时间
 	 */
-	private Calendar addorcutbegin = Calendar.getInstance();
+//	private Calendar addorcutbegin = Calendar.getInstance();
+	private Calendar addorcutbegin;
 
 	/**
 	 * 核减结束时间
 	 */
-	private Calendar addorcutend = Calendar.getInstance();
+//	private Calendar addorcutend = Calendar.getInstance();
+	private Calendar addorcutend;
 	
 	
 

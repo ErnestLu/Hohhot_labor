@@ -97,9 +97,19 @@ public class Util {
 	public static int getYear(Person person) {
 		int age = getMonthNum(person.getJoin(), person.getApproveTime());
 		
-		int cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
+		int cut = 0;
 		
-		if(cut != 1) {
+		if (person.getIfaddorcut() != null ) {
+			cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());	
+		}
+		
+		
+		//TODO 增加添加工龄 看看是否正确
+		
+		if("1".equals(person.getIfaddorcut())) {
+			age += cut;
+		}
+		if("2".equals(person.getIfaddorcut())) {
 			age -= cut;
 		}
 		
@@ -121,9 +131,17 @@ public class Util {
 		
 		int age = getMonthNum(person.getJoin(), person.getApproveTime());
 		
-		int cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
+		int cut = 0;
 		
-		if(cut != 1) {
+		if (person.getIfaddorcut() != null || !"".equals(person.getIfaddorcut())) {
+			cut = getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());	
+		}
+		
+		
+		if("1".equals(person.getIfaddorcut())) {
+			age += cut;
+		}
+		if("2".equals(person.getIfaddorcut())) {
 			age -= cut;
 		}
 		

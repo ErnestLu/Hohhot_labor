@@ -23,7 +23,10 @@ public class Db_Util {
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2012?user=root&password=sande";
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2013?user=root&password=sande";
 //	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_2014?user=root&password=sande";
-	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor?user=root&password=sande";
+//	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor_backup?user=root&password=sande";//测试服
+	private static String dbURL = "jdbc:mysql://localhost:3306/db_labor?user=root&password=sande";//
+
+	
 	private static String t_person = "t_person";
 
 	private static Connection conn = null;
@@ -180,7 +183,7 @@ public class Db_Util {
 	
 	private int insertStatement(Person person) {
 		
-		//TODO 修改备注信息 处理增加核减工龄信息
+		//TODO 修改备注信息 处理增加核减工龄信息  如果没有取消录入
 		
 		
 		int if_Succeed = 0;
@@ -208,8 +211,13 @@ public class Db_Util {
 			ps.setString(18, person.getBingNum() + "");
 			ps.setString(19, person.getCompany());
 			ps.setString(20, person.getIfaddorcut());
-			ps.setString(21, dfYMD.format(person.getAddorcutbegin().getTime()));
-			ps.setString(22, dfYMD.format(person.getAddorcutend().getTime()));
+			if (person.getIfaddorcut() != null) {
+				ps.setString(21, dfYMD.format(person.getAddorcutbegin().getTime()));
+				ps.setString(22, dfYMD.format(person.getAddorcutend().getTime()));
+			} else {
+				ps.setString(21, "");
+				ps.setString(22, "");
+			}
 			ps.setString(23, dfYMDHMS.format(Calendar.getInstance().getTime()));
 			ps.setString(24, "1");
 			ps.setString(25, "0");

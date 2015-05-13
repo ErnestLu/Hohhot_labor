@@ -372,9 +372,14 @@ public void addTime1(Person person) throws DocumentException {
 	
 	public boolean isCut(Person person) {
 		
-		int cut = Util.getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
+		int cut = 0;
 		
-		if(cut == 1) {
+		if (person.getIfaddorcut() != null) {
+			cut = Util.getMonthNum(person.getAddorcutbegin(), person.getAddorcutend());
+		}
+		
+		
+		if(cut == 0) {
 			return false;
 		}
 		
